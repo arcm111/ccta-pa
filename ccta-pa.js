@@ -3,13 +3,16 @@
 // @description Display alliance's POIs scores and next tier requirements.
 // @namespace   https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include     https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
-// @version     1
+// @version     1.1
 // @grant none
+// @author zdoom
+// @updateURL https://userscripts.org/scripts/source/171353.meta.js
+// @downloadURL https://userscripts.org/scripts/source/171353.user.js
 // ==/UserScript==
 
 (function(){
-    var init = function(){
-  	console.log('script started');
+	var init = function(){
+		console.log('script started');
 		var multiplier = {
 						1: 100,
 						2: 90,
@@ -133,7 +136,7 @@
 					];
 		
 		var style = {
-			"table": {"margin": "5px", "borderTop": "1px solid #333", "borderBottom": "1px solid #333", "fontFamily": "tahoma"},
+			"table": {"margin": "5px", "borderTop": "1px solid #333", "borderBottom": "1px solid #333", "fontFamily": "Verdana, Geneva, sans-serif"},
 			"graph": {
 				"td": {"width": "68px", "verticalAlign": "bottom", "textAlign": "center"},
 				"div": {"width": "24px", "margin": "0 auto -1px auto", "border": "3px solid #333", "borderBottom": "none"}
@@ -150,7 +153,7 @@
 			},
 			"rows": {
 				"graph": {"borderBottom": "3px solid #333", "height": "200px"},
-				"tr": {"fontSize": "12px", "borderBottom": "1px solid #333",  "backgroundColor": "#ebebeb"}
+				"tr": {"fontSize": "11px", "borderBottom": "1px solid #333",  "backgroundColor": "#d6dde1"}
 			}      
 		};
 						
@@ -191,11 +194,11 @@
 			row.onclick = function(){
 				var tr = table.getElementsByTagName('tr');
 				for (i = 1; i < tr.length; i++){
-					tr[i].style.backgroundColor = '#ebebeb';
+					tr[i].style.backgroundColor = '#d6dde1';
 				}
-				this.style.backgroundColor = '#fefefe';
+				this.style.backgroundColor = '#ecf6fc';
 			};
-			if(selected == 1) row.style.backgroundColor = '#fefefe';
+			if(selected == 1) row.style.backgroundColor = '#ecf6fc';
 			header.css(style.cell.header);
 			header.appendChild(document.createTextNode(title));
 			row.appendChild(header);
@@ -211,38 +214,15 @@
 		var allianceName, ranks, pois, opois;
 		var	poisConstructor = function(){
 			console.log('getting data');
-			var base = this, tib = [], air = [], crs = [], pwr = [], tun = [], urn = [], res = [];
+			var base = this;
 			opois.map(function(poi){
-				switch(poi.t){
-						case 2:
-							tib.push(poi)
-						break;
-						case 3:
-							crs.push(poi);
-						break;
-						case 4:
-							pwr.push(poi);
-						break;
-						case 5:
-							tun.push(poi);
-						break;
-						case 6:
-							urn.push(poi);
-						break;
-						case 7:
-							air.push(poi);
-						break;
-						case 8:
-							res.push(poi);
-						break;
-				}
-				base.tib = {"scr": ranks[0].s, "comp": tib, "color": "#8dc186", "range": range(ranks[0].s), "type": 1, "rank": ranks[0].r, "name": "Tiberium"};
-				base.crs = {"scr": ranks[1].s, "comp": crs, "color": "#5b9dcb", "range": range(ranks[1].s), "type": 1, "rank": ranks[1].r, "name": "Crystal"};
-				base.pwr = {"scr": ranks[2].s, "comp": pwr, "color": "#8cc1c7", "range": range(ranks[2].s), "type": 1, "rank": ranks[2].r, "name": "Power"};
-				base.tun = {"scr": ranks[3].s, "comp": tun, "color": "#d7d49c", "range": range(ranks[3].s), "type": 2, "rank": ranks[3].r, "name": "Infantry"};
-				base.urn = {"scr": ranks[4].s, "comp": urn, "color": "#dbb476", "range": range(ranks[4].s), "type": 2, "rank": ranks[4].r, "name": "Uranium"};
-				base.air = {"scr": ranks[5].s, "comp": air, "color": "#c47f76", "range": range(ranks[5].s), "type": 2, "rank": ranks[5].r, "name": "Aircraft"};
-				base.res = {"scr": ranks[6].s, "comp": res, "color": "#928195", "range": range(ranks[6].s), "type": 2, "rank": ranks[6].r, "name": "Defence"};
+				base.tib = {"scr": ranks[0].s, "color": "#8dc186", "range": range(ranks[0].s), "type": 1, "rank": ranks[0].r, "name": "Tiberium"};
+				base.crs = {"scr": ranks[1].s, "color": "#5b9dcb", "range": range(ranks[1].s), "type": 1, "rank": ranks[1].r, "name": "Crystal"};
+				base.pwr = {"scr": ranks[2].s, "color": "#8cc1c7", "range": range(ranks[2].s), "type": 1, "rank": ranks[2].r, "name": "Power"};
+				base.tun = {"scr": ranks[3].s, "color": "#d7d49c", "range": range(ranks[3].s), "type": 2, "rank": ranks[3].r, "name": "Infantry"};
+				base.urn = {"scr": ranks[4].s, "color": "#dbb476", "range": range(ranks[4].s), "type": 2, "rank": ranks[4].r, "name": "Uranium"};
+				base.air = {"scr": ranks[5].s, "color": "#c47f76", "range": range(ranks[5].s), "type": 2, "rank": ranks[5].r, "name": "Aircraft"};
+				base.res = {"scr": ranks[6].s, "color": "#928195", "range": range(ranks[6].s), "type": 2, "rank": ranks[6].r, "name": "Defence"};
 			});
 		};
 		
@@ -257,7 +237,7 @@
 			var multiplierData = function(){
 				var arr = [];
 				for(var x in multiplier){
-					if(x !== 0) arr.push([x, multiplier[x] + "%"]);
+					if(x != 0) arr.push([parseInt(x), multiplier[x] + "%"]);
 				};
 				return arr;
 			};
@@ -268,32 +248,30 @@
 				});
 				return arr;
 			};
+			
+			var columns = [["POI Level", "Score"], ["Tier", "Score Required", "Bonus", "Percentage"], ["Rank", "Multiplier"]];
+			var rows = [scoreData(), bonusData(), multiplierData()];
+			
+			var make = function(n){
+				var model = new qx.ui.table.model.Simple();
+					model.setColumns(columns[n]);
+					model.setData(rows[n]);
+				var table = new qx.ui.table.Table(model);
+					table.setColumnVisibilityButtonVisible(false);
+					table.setHeaderCellHeight(25);
+					table.setMarginTop(20);
+					table.setMinWidth(500);
+				var renderer = new qx.ui.table.cellrenderer.Default();
+					renderer.setUseAutoAlign(false);
+				table.getTableColumnModel().setDataCellRenderer(0, renderer);
+				return table;
+			};
 							
-			this.score = function(){
-				var model = new qx.ui.table.model.Simple();
-					model.setColumns(["POI Level", "Score"]);
-					model.setData(scoreData());
-				var table = new qx.ui.table.Table(model);
-				return table;
-			};
-			
-			this.bonus = function(){
-				var model = new qx.ui.table.model.Simple();
-					model.setColumns(["Tier", "Score Required", "Bonus", "Percentage"]);
-					model.setData(bonusData());
-				var table = new qx.ui.table.Table(model);
-				return table;
-			};
-			
-			this.multiplier = function(){
-				var model = new qx.ui.table.model.Simple();
-					model.setColumns(["Rank", "Multiplier"]);
-					model.setData(multiplierData());
-				var table = new qx.ui.table.Table(model);
-				return table;
-			};
+			this.score = make(0);
+			this.bonus = make(1);
+			this.multiplier = make(2);
 		};
-		createTable = new createTable();
+		tables = new createTable();
 		
 		var getData = function(){
 			var a = ClientLib.Data.MainData.GetInstance().get_Alliance(),
@@ -335,7 +313,7 @@
 			var label = new qx.ui.basic.Label("Made by zdoom.").set({
 								textColor: "text-value",
 								font: "font_size_13",
-								margin: 10
+								padding: 10
 							});
 							
 			var img = new qx.ui.basic.Image('http://archeikhmeri.co.uk/images/fop.png');
@@ -369,15 +347,18 @@
 				info.setMarginTop(10);
 				
 			var grid = new qx.ui.container.Composite(new qx.ui.layout.Grid(2,1));
+			
 			var buttonCont = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 				buttonCont.setMarginTop(10);
+				
 			var tableCont = new qx.ui.container.Composite(new qx.ui.layout.VBox());
 				tableCont.setMinWidth(500);
+				
 			grid.add(buttonCont, {row: 1, column: 1});
 			grid.add(tableCont, {row: 1, column: 2});
 			
 			[['Scores', 'score'], ['Muliplier', 'multiplier'], ['Tiers', 'bonus']].map(function(key){
-				var table = createTable[key[1]]();
+				var table = tables[key[1]];
 					table.setColumnVisibilityButtonVisible(false);
 					table.setHeaderCellHeight(25);
 					table.setMarginTop(20);
@@ -394,13 +375,7 @@
 				buttonCont.add(button);
 			});
 			
-			var scoreTable = createTable.score();
-				scoreTable.setColumnVisibilityButtonVisible(false);
-				scoreTable.setHeaderCellHeight(25);
-				scoreTable.setMarginTop(20);
-				scoreTable.setMinWidth(500);
-				
-			tableCont.add(scoreTable);
+			tableCont.add(tables.score);
 			info.add(grid);
 			
 			tab.add(scrl);
@@ -475,15 +450,15 @@
 				m++;
 			}
 			addRow('Tier', tier, table);
+			addRow('Alliance Rank', poiRank, table);		
 			addRow('Score', score, table);
 			addRow('Next Tier Requires', nextTier, table);
-			addRow('Alliance Rank', poiRank, table);		
 			addRow('Bonus', bns, table, 1);
 			addRow('Next Tier Bonus', nextBns, table);
 			document.getElementById(id).appendChild(table);
 		}		
-		setLayout();	
-    };
+		setLayout();
+	};
 
     function loader(){
         var qx = unsafeWindow["qx"];
