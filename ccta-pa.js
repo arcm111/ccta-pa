@@ -263,7 +263,9 @@
 					table.setMinWidth(500);
 				var renderer = new qx.ui.table.cellrenderer.Default();
 					renderer.setUseAutoAlign(false);
-				table.getTableColumnModel().setDataCellRenderer(0, renderer);
+					for (i = 0; i < columns[n].length; i++){
+						table.getTableColumnModel().setDataCellRenderer(i, renderer);
+					}
 				return table;
 			};
 							
